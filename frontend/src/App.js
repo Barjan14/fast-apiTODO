@@ -11,7 +11,7 @@ const App = () => {
   const [editedTitle, setEditedTitle] = useState('');
 
   // Update with your actual deployed FastAPI backend URL
-  const API_URL = 'https://your-fastapi-backend-url.onrender.com'; // Replace with your live backend URL
+  const API_URL = 'https://your-fastapi-backend-url.onrender.com/todos'; // Replace with your live backend URL
 
   useEffect(() => {
     fetchTodos();
@@ -19,7 +19,7 @@ const App = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch(`${API_URL}/todos/`);
+      const response = await fetch(`${API_URL}`);
       if (!response.ok) {
         throw new Error('Failed to fetch todos');
       }
@@ -33,7 +33,7 @@ const App = () => {
   const handleAddTodo = async () => {
     if (newTodo) {
       try {
-        const response = await fetch(`${API_URL}/todos/`, {
+        const response = await fetch(`${API_URL}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const App = () => {
     };
 
     try {
-      await fetch(`${API_URL}/todos/${id}`, {
+      await fetch(`${API_URL}${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const App = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}/todos/${id}`, {
+      await fetch(`${API_URL}${id}`, {
         method: 'DELETE',
       });
 
@@ -89,7 +89,7 @@ const App = () => {
 
   const handleSaveEdit = async (id) => {
     try {
-      await fetch(`${API_URL}/todos/${id}`, {
+      await fetch(`${API_URL}${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
