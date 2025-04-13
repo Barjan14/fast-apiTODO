@@ -10,8 +10,7 @@ const App = () => {
   const [editingId, setEditingId] = useState(null);
   const [editedTitle, setEditedTitle] = useState('');
 
-  // Update with your actual deployed FastAPI backend URL
-  const API_URL = 'https://fast-apitodo.onrender.com/todos'; // Replace with your live backend URL
+  const API_URL = 'https://fast-apitodo.onrender.com/todos'; // ✅ Replace with your actual backend URL
 
   useEffect(() => {
     fetchTodos();
@@ -61,7 +60,7 @@ const App = () => {
     };
 
     try {
-      await fetch(`${API_URL}${id}`, {
+      await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +76,7 @@ const App = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}${id}`, {
+      await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
       });
 
@@ -89,7 +88,7 @@ const App = () => {
 
   const handleSaveEdit = async (id) => {
     try {
-      await fetch(`${API_URL}${id}`, {
+      await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -191,7 +190,6 @@ const ToggleContainer = styled.div`
   padding: 0.5rem;
   border-radius: 8px;
   width: 10%;
-  
 `;
 
 const Container = styled.div`
@@ -270,4 +268,3 @@ const FilterButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
-
