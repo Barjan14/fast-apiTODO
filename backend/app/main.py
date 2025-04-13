@@ -9,11 +9,14 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+origins = [
+    "https://fast-apitodo-1.onrender.com",  # React frontend
+]
 
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://fast-apitodo-1.onrender.com"],  # For dev. Use exact domain in prod
+    allow_origins=origins, 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
