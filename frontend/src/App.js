@@ -11,7 +11,7 @@ const App = () => {
   const [editedTitle, setEditedTitle] = useState('');
 
   // Update with your actual deployed FastAPI backend URL
-  const API_URL = 'https://your-fastapi-backend-url.onrender.com/todos'; // Replace with your live backend URL
+  const API_URL = 'https://fast-apitodo.onrender.com/todos'; // Replace with your live backend URL
 
   useEffect(() => {
     fetchTodos();
