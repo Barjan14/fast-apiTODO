@@ -10,29 +10,45 @@ const App = () => {
   const [editingId, setEditingId] = useState(null);
   const [editedTitle, setEditedTitle] = useState('');
 
+  // Update with your actual deployed FastAPI backend URL
+  const API_URL = 'https://your-fastapi-backend-url.onrender.com'; // Replace with your live backend URL
+
   useEffect(() => {
     fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
-    const response = await fetch('http://127.0.0.1:8000/todos/');
-    const data = await response.json();
-    setTodos(data);
+    try {
+      const response = await fetch(`${API_URL}/todos/`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch todos');
+      }
+      const data = await response.json();
+      setTodos(data);
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+    }
   };
 
   const handleAddTodo = async () => {
     if (newTodo) {
-      const response = await fetch('http://127.0.0.1:8000/todos/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title: newTodo }),
-      });
+      try {
+        const response = await fetch(`${API_URL}/todos/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title: newTodo }),
+        });
 
-      if (response.ok) {
-        fetchTodos();
-        setNewTodo('');
+        if (response.ok) {
+          fetchTodos();
+          setNewTodo('');
+        } else {
+          throw new Error('Failed to add todo');
+        }
+      } catch (error) {
+        console.error('Error adding todo:', error);
       }
     }
   };
@@ -44,40 +60,52 @@ const App = () => {
       completed: !todo.completed,
     };
 
-    await fetch(`http://127.0.0.1:8000/todos/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedTodo),
-    });
+    try {
+      await fetch(`${API_URL}/todos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedTodo),
+      });
 
-    fetchTodos();
+      fetchTodos();
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://127.0.0.1:8000/todos/${id}`, {
-      method: 'DELETE',
-    });
+    try {
+      await fetch(`${API_URL}/todos/${id}`, {
+        method: 'DELETE',
+      });
 
-    fetchTodos();
+      fetchTodos();
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
   };
 
   const handleSaveEdit = async (id) => {
-    await fetch(`http://127.0.0.1:8000/todos/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: editedTitle,
-        completed: todos.find((t) => t.id === id).completed,
-      }),
-    });
+    try {
+      await fetch(`${API_URL}/todos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: editedTitle,
+          completed: todos.find((t) => t.id === id).completed,
+        }),
+      });
 
-    setEditingId(null);
-    setEditedTitle('');
-    fetchTodos();
+      setEditingId(null);
+      setEditedTitle('');
+      fetchTodos();
+    } catch (error) {
+      console.error('Error saving edit:', error);
+    }
   };
 
   const handleToggleDarkMode = () => {
@@ -242,3 +270,4 @@ const FilterButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
+

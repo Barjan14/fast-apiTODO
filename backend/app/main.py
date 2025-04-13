@@ -13,7 +13,7 @@ app = FastAPI()
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For dev. Use exact domain in prod
+    allow_origins=["https://fast-apitodo-1.onrender.com"],  # For dev. Use exact domain in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
