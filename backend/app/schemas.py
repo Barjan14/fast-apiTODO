@@ -1,5 +1,5 @@
-from pydantic import BaseModel
 from typing import Optional
+from pydantic import BaseModel
 
 class TodoBase(BaseModel):
     title: str
@@ -15,5 +15,6 @@ class TodoUpdate(BaseModel):
 class TodoResponse(TodoBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
